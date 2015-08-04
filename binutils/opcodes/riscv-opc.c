@@ -249,9 +249,6 @@ const struct riscv_opcode riscv_builtin_opcodes[] =
 {"lw",        "C",   "CD,Cm(Cc)",  MATCH_C_LWSP, MASK_C_LWSP, match_rd_nonzero, INSN_ALIAS },
 {"lw",        "C",   "Ct,Ck(Cs)",  MATCH_C_LW, MASK_C_LW, match_opcode, INSN_ALIAS },
 {"lw",        "I",   "d,o(s)",  MATCH_LW, MASK_LW, match_opcode,   WR_xd|RD_xs1 },
-{"ltag",        "I",   "d,o(s)",  MATCH_LTAG, MASK_LTAG, match_opcode,   WR_xd|RD_xs1 },
-{"stag",        "I",   "t,q(s)",  MATCH_STAG, MASK_STAG, match_opcode,   WR_xd|RD_xs1 },
-{"stal",        "I",   "t,q(s)",  MATCH_STAL, MASK_STAL, match_opcode,   WR_xd|RD_xs1 },
 {"lw",        "I",   "d,A",  0, (int) M_LW, match_never, INSN_MACRO },
 {"not",       "I",   "d,s",  MATCH_XORI | MASK_IMM, MASK_XORI | MASK_IMM, match_opcode,   INSN_ALIAS|WR_xd|RD_xs1 },
 {"ori",       "32C", "Ct,Cs,Ci",  MATCH_C_ORIN, MASK_C_ORIN, match_opcode, INSN_ALIAS },
@@ -335,6 +332,11 @@ const struct riscv_opcode riscv_builtin_opcodes[] =
 {"sraw",      "64I", "d,s,t",   MATCH_SRAW, MASK_SRAW, match_opcode,   WR_xd|RD_xs1|RD_xs2 },
 {"sraw",      "64I", "d,s,<",   MATCH_SRAIW, MASK_SRAIW, match_opcode,   INSN_ALIAS|WR_xd|RD_xs1 },
 {"subw",      "64I", "d,s,t",  MATCH_SUBW, MASK_SUBW, match_opcode,   WR_xd|RD_xs1|RD_xs2 },
+
+/* lowRISC tag instructions */
+{"ltag",        "I",   "d,o(s)",  MATCH_LTAG, MASK_LTAG, match_opcode,   WR_xd|RD_xs1 },
+{"stag",        "I",   "t,q(s)",  MATCH_STAG, MASK_STAG, match_opcode,   WR_xd|RD_xs1 },
+{"stal",        "I",   "t,q(s)",  MATCH_STAL, MASK_STAL, match_opcode,   WR_xd|RD_xs1 },
 
 /* Compressed instructions */
 {"c.ebreak",  "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, 0 },
