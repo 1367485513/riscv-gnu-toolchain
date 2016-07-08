@@ -52,17 +52,23 @@
    (match_operand:SI 1 "const_int_operand" "")] ;; model
   ""
 {
-  switch (INTVAL (operands[1]))
+  long model = INTVAL (operands[1]);
+
+  switch (model)
     {
     case MEMMODEL_SEQ_CST:
+    case MEMMODEL_SYNC_SEQ_CST:
     case MEMMODEL_ACQ_REL:
       return "fence rw,rw";
     case MEMMODEL_ACQUIRE:
+    case MEMMODEL_SYNC_ACQUIRE:
     case MEMMODEL_CONSUME:
       return "fence r,rw";
     case MEMMODEL_RELEASE:
+    case MEMMODEL_SYNC_RELEASE:
       return "fence rw,w";
     default:
+      fprintf(stderr, "mem_thread_fence_1(%ld)\n", model);
       gcc_unreachable();
     }
 })
@@ -146,13 +152,13 @@
     {
       rtx difference = gen_rtx_MINUS (<MODE>mode, operands[1], operands[3]);
       compare = gen_reg_rtx (<MODE>mode);
-      emit_insn (gen_rtx_SET (VOIDmode, compare, difference));
+      emit_insn (gen_rtx_SET (compare, difference));
     }
 
   rtx eq = gen_rtx_EQ (<MODE>mode, compare, const0_rtx);
   rtx result = gen_reg_rtx (<MODE>mode);
-  emit_insn (gen_rtx_SET (VOIDmode, result, eq));
-  emit_insn (gen_rtx_SET (VOIDmode, operands[0], gen_lowpart (SImode, result)));
+  emit_insn (gen_rtx_SET (result, eq));
+  emit_insn (gen_rtx_SET (operands[0], gen_lowpart (SImode, result)));
   DONE;
 })
 
